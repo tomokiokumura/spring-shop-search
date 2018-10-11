@@ -1,17 +1,31 @@
-package handson.example.springshopsearch.controller;
+package com.mosmos21.shop_search.controller;
 
-import org.springframework.http.HttpStatus;
+import com.mosmos21.shop_search.model.item.Item;
+import com.mosmos21.shop_search.service.ItemService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @RequestMapping("/")
 public class HomeController {
 
+    @Autowired
+    ItemService itemService;
+
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
     public String index(Model model) {
+        List<Item> list = itemService.getItems();
+        model.addAttribute("items", list);
+        return "index";
+    }
+
+    @PostMapping
+    public String Search(Model model, @RequestBody Map<String, String> params) {
+        List<Item> list = itemService.getItems(params.get("itemName"));
+        model.addAttribute("items", list);
         return "index";
     }
 }
