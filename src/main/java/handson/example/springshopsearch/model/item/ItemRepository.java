@@ -1,4 +1,4 @@
-package com.mosmos21.shop_search.model.item;
+package handson.example.springshopsearch.model.item;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

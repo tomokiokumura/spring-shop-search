@@ -1,4 +1,4 @@
-package com.mosmos21.shop_search.model.user;
+package handson.example.springshopsearch.model.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,13 +1,17 @@
-package com.mosmos21.shop_search.controller;
-
-import com.mosmos21.shop_search.model.item.Item;
-import com.mosmos21.shop_search.service.ItemService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+package handson.example.springshopsearch.controller;
 
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import handson.example.springshopsearch.model.item.Item;
+import handson.example.springshopsearch.service.ItemService;
 
 @RequestMapping("/")
 public class HomeController {

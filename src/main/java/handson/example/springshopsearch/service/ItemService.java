@@ -1,12 +1,13 @@
-package com.mosmos21.shop_search.service;
+package handson.example.springshopsearch.service;
 
-import com.mosmos21.shop_search.model.item.Item;
-import com.mosmos21.shop_search.model.item.ItemRepository;
-import com.mosmos21.shop_search.model.user.UserRepository;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import handson.example.springshopsearch.model.item.Item;
+import handson.example.springshopsearch.model.item.ItemRepository;
+import handson.example.springshopsearch.model.user.UserRepository;
 
 @Service
 public class ItemService {
