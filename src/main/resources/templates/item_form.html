@@ -1,13 +1,24 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="common/header.html::header" />
+<head th:replace="common/header.html::header"/>
 <body>
 <div class="container">
-    <div class="form-group">
-        <label for="itemName">商品名</label>
-        <input type="name" class="form-control" id="itemName">
-    </div>
-    <button class="btn btn-primary" type="submit">決定</button>
+    <h2>商品登録</h2>
+    <form method="post">
+        <div class="form-group">
+            <label for="itemName">商品名</label>
+            <input type="name" class="form-control" id="itemName" name="name">
+        </div>
+        <div class="form-group">
+            <label for="itemDescription">説明</label>
+            <textarea type="text" class="form-control" id="itemDescription" name="description" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="itemPrice">商品価格</label>
+            <input type="number" class="form-control" id="itemPrice" name="price">
+        </div>
+        <button class="btn btn-primary" type="submit">決定</button>
+    </form>
 </div>
 </body>
 </html>
