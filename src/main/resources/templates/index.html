@@ -2,8 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="common/header.html::header"/>
 <body>
+<div th:replace="common/navbar.html::navbar"></div>
 <div class="container">
-    <h1>Spring Shop Search</h1>
     <form class="form-inline">
         <div class="form-group mr-2">
             <input type="text" class="form-control" placeholder="検索ワードを入力…" name="keyword">
@@ -22,10 +22,6 @@
             </li>
         </ul>
     </div>
-
-    <a href="/items/add">
-        <button class="btn btn-primary">商品追加</button>
-    </a>
 </div>
 </body>
 </html>
