@@ -4,12 +4,14 @@
 <body>
 <div th:replace="common/navbar.html::navbar"></div>
 <div class="container">
-    <form class="form-inline">
-        <div class="form-group mr-2">
-            <input type="text" class="form-control" placeholder="検索ワードを入力…" name="keyword">
-        </div>
+    <form >
         <div class="form-group">
-            <button class="btn btn-primary" type="submit">検索</button>
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="検索ワードを入力…" name="keyword">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">検索</button>
+                </div>
+            </div>
         </div>
     </form>
     <p th:if="isSearching == 'true'">

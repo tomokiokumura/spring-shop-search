@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ItemService {
@@ -21,6 +22,15 @@ public class ItemService {
         return itemRepository.findByNameContains(keyword);
     }
 
+    public List<Item> contractDescription(List<Item> list, int length) {
+        return list.stream()
+                .map(i -> {
+                    String d = i.getDescription();
+                    i.setDescription(length < d.length() ? d.substring(0, length) + "..." : d);
+                    return i;
+                })
+                .collect(Collectors.toList());
+    }
     public void save(Item item) {
         itemRepository.save(item);
     }
