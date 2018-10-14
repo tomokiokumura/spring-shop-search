@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -26,6 +27,12 @@ public class ItemController {
         List<Item> list = itemService.getAllItems();
         model.addAttribute("items", itemService.contractDescription(list, 10));
         return Constants.Templates.ITEM_LIST;
+    }
+
+    @GetMapping("{id:[0-9]+}")
+    public String getDetail(Model model, @PathVariable("id") Long id) {
+        model.addAttribute("item", itemService.getItem(id));
+        return Constants.Templates.ITEM_DETAIL;
     }
 
     @GetMapping("/add")

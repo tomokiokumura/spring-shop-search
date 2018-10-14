@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,6 +21,16 @@ public class ItemService {
 
     public List<Item> getItems(String keyword) {
         return itemRepository.findByNameContains(keyword);
+    }
+
+    public Item getItem(Long id) {
+        Optional<Item> opt = itemRepository.findById(id);
+        if(opt.isPresent()) {
+            return opt.get();
+        }
+        Item item = new Item();
+        item.setId(-1L);
+        return item;
     }
 
     public List<Item> contractDescription(List<Item> list, int length) {

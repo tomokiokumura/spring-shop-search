@@ -1,10 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header.html::header"/>
 <body>
-
+<div th:replace="common/navbar.html::navbar"></div>
+<div class="container">
+    <div class="row">
+        <h2 class="col-md-10">
+            商品詳細
+        </h2>
+        <div class="col-md-2">
+            <a href="/">
+                <button class="btn btn-outline-primary">戻る</button>
+            </a>
+        </div>
+    </div>
+    
+</div>
 </body>
 </html>
