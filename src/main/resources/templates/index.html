@@ -4,7 +4,7 @@
 <body>
 <div th:replace="common/navbar.html::navbar"></div>
 <div class="container">
-    <form >
+    <form>
         <div class="form-group">
             <div class="input-group">
                 <input type="text" class="form-control" placeholder="検索ワードを入力…" name="keyword">
@@ -17,12 +17,21 @@
     <p th:if="isSearching == 'true'">
         検索結果： [[${count}]] 件
     </p>
-    <div>
-        <ul>
-            <li th:each="item : ${items}" th:object="${item}">
-                <span>[[${item.id}]]: 商品名: [[${item.name}]], 説明: [[${item.description}]]</span>
-            </li>
-        </ul>
+    <div class="row">
+        <div class="col-md-4" style="padding: 5px;" th:each="item : ${items}" th:object="${item}">
+            <div class="card" style="height: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="*{name}"></h5>
+                    <h6 class="card-subtitle">[[*{price}]] Yen</h6>
+                    <p class="card-text" th:text="*{description}" style="height: 8rem;"></p>
+                    <a th:href="@{/items/{id}(id=*{id})}">
+                        <button class="btn btn-outline-primary">
+                            詳細
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </body>
