@@ -18,7 +18,7 @@ public class ItemService {
     }
 
     public List<Item> getItems(String keyword) {
-        return itemRepository.findByNameLike(keyword);
+        return itemRepository.findByNameContains(keyword);
     }
 
     public void save(Item item) {
