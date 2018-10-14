@@ -1,0 +1,27 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header.html::header" />
+<body>
+<h1>Spring Shop Search</h1>
+<div class="container">
+    <form action="/">
+        <input type="text" placeholder="検索ワードを入力…">
+        <button type="submit">検索</button>
+    </form>
+    <p>
+        検索結果： [[${count}]]
+    </p>
+    <div>
+        <ul th:each="item : ${items}">
+            <li>
+                ID: [[${item.id}}]], 名前: [[${item.name}}]], 説明: [[${item.description}}]]
+            </li>
+        </ul>
+    </div>
+
+    <a href="/items/add">
+        <button>商品追加</button>
+    </a>
+</div>
+</body>
+</html>
