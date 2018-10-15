@@ -4,19 +4,27 @@
 <body>
 <div th:replace="common/navbar.html::navbar"></div>
 <div class="container">
-    <form>
-        <div class="form-group">
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="検索ワードを入力…" name="keyword">
-                <div class="input-group-append">
-                    <button class="btn btn-primary" type="submit">検索</button>
+    <div class="row">
+        <div class="col-md-12">
+            <form>
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="検索ワードを入力…" name="keyword">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">検索</button>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
-    </form>
-    <p th:if="isSearching == 'true'">
-        検索結果： [[${count}]] 件
-    </p>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <p th:if="isSearching == 'true'">
+                検索結果： [[${count}]] 件
+            </p>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-4" style="padding: 5px;" th:each="item : ${items}" th:object="${item}">
             <div class="card" style="height: 18rem;">
