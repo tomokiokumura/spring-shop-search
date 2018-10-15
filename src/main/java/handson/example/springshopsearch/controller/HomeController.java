@@ -34,4 +34,9 @@ public class HomeController {
         }
         return Constants.Templates.INDEX;
     }
+
+    @GetMapping("about")
+    public String getAbout() {
+        return Constants.Templates.ABOUT;
+    }
 }
