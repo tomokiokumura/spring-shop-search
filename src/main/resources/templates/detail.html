@@ -14,7 +14,28 @@
             </a>
         </div>
     </div>
-    
+    <div class="mt-5" th:object="${item}">
+        <div class="row">
+            <div class="col-md-4">
+                <img th:src="@{/images/default.png}" alt="IMAGE NOT SET" width="200" height="200" align="center">
+            </div>
+            <div class="col-md-8">
+                <p class="h5">
+                    商品番号： [[ *{id} ]]
+                </p>
+                <p class="mt-5 h2">
+                    [[ *{name} ]]
+                </p>
+                <p>
+                    価格： [[ *{price} ]] Yen
+                </p>
+            </div>
+        </div>
+        <div class="row mt-5 mr-1 ml-1">
+            <p th:text="*{description}"></p>
+            <small class="text-muted">テキストは Wikipedia からの抜粋です。</small>
+        </div>
+    </div>
 </div>
 </body>
 </html>
