@@ -1,6 +1,7 @@
 package handson.example.springshopsearch.controller;
 
 import handson.example.springshopsearch.model.item.Item;
+import handson.example.springshopsearch.service.Debugger;
 import handson.example.springshopsearch.service.ItemService;
 import handson.example.springshopsearch.utils.Constants;
 import lombok.extern.java.Log;
@@ -23,6 +24,9 @@ public class HomeController {
     @Autowired
     ItemService itemService;
 
+    @Autowired
+    Debugger debugger;
+
     @GetMapping
     public String index(Model model, @RequestParam(name = "keyword", required = false) Optional<String> keyword) {
         List<Item> list = keyword.isPresent() ? itemService.getItems(keyword.get()) : itemService.getAllItems();
@@ -38,5 +42,12 @@ public class HomeController {
     @GetMapping("about")
     public String getAbout() {
         return Constants.Templates.ABOUT;
+    }
+
+    @GetMapping("init")
+    public String init() {
+        int count = debugger.initItems();
+        log.info("商品リストを初期化しました 商品件数: " + count + "件");
+        return "redirect:/";
     }
 }

@@ -27,13 +27,10 @@ public class Item {
     @Column(name = "name")
     public String name;
 
-    @Column(name = "description", columnDefinition = "TEXT")
-    public String description;
-
     @Min(value = 0)
     @Column(name = "price")
     public int price;
 
-    @Column(name = "authorId")
-    public Long authorId;
+    @Column(name = "description", columnDefinition = "TEXT")
+    public String description;
 }
