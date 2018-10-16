@@ -28,11 +28,11 @@
         <tr th:each="item : ${items}" th:object="${item}">
             <td th:text="*{id}"></td>
             <td th:text="*{name}"></td>
-            <td th:text="*{price}"></td>
+            <td th:text="*{price} + ' Yen'"></td>
             <td th:text="*{description}"></td>
             <td>
                 <a th:href="@{/items/{id}(id=*{id})}">
-                    <button class="btn btn-primary btn-small">編集</button>
+                    <button class="btn btn-outline-primary btn-small">確認</button>
                 </a>
             </td>
         </tr>
