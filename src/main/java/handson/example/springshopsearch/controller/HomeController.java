@@ -28,13 +28,19 @@ public class HomeController {
     Debugger debugger;
 
     @GetMapping
-    public String index(Model model, @RequestParam(name = "keyword", required = false) Optional<String> keyword) {
-        List<Item> list = keyword.isPresent() ? itemService.getItems(keyword.get()) : itemService.getAllItems();
+    public String index(
+            Model model,
+            @RequestParam(name = "keyword", required = false) Optional<String> keyword,
+            @RequestParam(name = "type", required = false) Optional<String> type) {
+        String searchType = type.orElse(Constants.SearchType.ALL);
+        List<Item> list = keyword.isPresent()
+                ? itemService.getItems(keyword.get(), searchType)
+                : itemService.getAllItems();
         model.addAttribute("isSearching", keyword.isPresent());
         model.addAttribute("count", list.size());
         model.addAttribute("items", list);
-        if(keyword.isPresent()) {
-            log.info("search keyword: " + keyword.get() + " result: " + list.size());
+        if (keyword.isPresent()) {
+            log.info("search keyword: " + keyword.get() + ", type: " + searchType + ", result: " + list.size());
         }
         return Constants.Templates.INDEX;
     }

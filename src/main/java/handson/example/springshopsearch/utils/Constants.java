@@ -9,4 +9,10 @@ public class Constants {
         public static final String ITEM_DETAIL = "detail";
         public static final String ABOUT = "about";
     }
+
+    public class SearchType {
+        public static final String ALL = "all";
+        public static final String NAME = "name";
+        public static final String DESCRIPTION = "description";
+    }
 }

@@ -2,9 +2,11 @@ package handson.example.springshopsearch.service;
 
 import handson.example.springshopsearch.model.item.Item;
 import handson.example.springshopsearch.model.item.ItemRepository;
+import handson.example.springshopsearch.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -19,8 +21,16 @@ public class ItemService {
         return itemRepository.findAll();
     }
 
-    public List<Item> getItems(String keyword) {
-        return itemRepository.findByNameContains(keyword);
+    public List<Item> getItems(String keyword, String type) {
+        switch (type) {
+            case Constants.SearchType.ALL:
+                return itemRepository.findByDescriptionContainsOrNameContains(keyword, keyword);
+            case Constants.SearchType.DESCRIPTION:
+                return itemRepository.findByDescriptionContains(keyword);
+            case Constants.SearchType.NAME:
+                return itemRepository.findByNameContains(keyword);
+        }
+        return new ArrayList<>();
     }
 
     public Item getItem(Long id) {
