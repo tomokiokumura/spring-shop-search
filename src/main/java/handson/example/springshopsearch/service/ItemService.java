@@ -24,11 +24,11 @@ public class ItemService {
     public List<Item> getItems(String keyword, String type) {
         switch (type) {
             case Constants.SearchType.ALL:
-                return itemRepository.findByDescriptionContainsOrNameContains(keyword, keyword);
+                return itemRepository.findByDescriptionContainsOrNameContainsOrderByIdAsc(keyword, keyword);
             case Constants.SearchType.DESCRIPTION:
-                return itemRepository.findByDescriptionContains(keyword);
+                return itemRepository.findByDescriptionContainsOrderByIdAsc(keyword);
             case Constants.SearchType.NAME:
-                return itemRepository.findByNameContains(keyword);
+                return itemRepository.findByNameContainsOrderByIdAsc(keyword);
         }
         return new ArrayList<>();
     }
