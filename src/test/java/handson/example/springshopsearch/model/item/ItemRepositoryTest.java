@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -31,5 +32,32 @@ public class ItemRepositoryTest {
 
         List<Item> itemList = itemRepository.findByNameContainsOrderByIdAsc("name");
         assertEquals(3, itemList.size());
+        assertTrue(itemList.get(0).getId() < itemList.get(1).getId());
+    }
+
+    @Test
+    public void findByDescriptionContains() {
+        testEntityManager.persist(new Item(null, "dummy", 100, "desc2"));
+        testEntityManager.persist(new Item(null, "dummy", 100, "desc1"));
+        testEntityManager.persist(new Item(null, "dummy", 100, "1desc1"));
+        testEntityManager.persist(new Item(null, "dummy", 100, "aaa"));
+        testEntityManager.persist(new Item(null, "dummy", 100, "bbb"));
+
+        List<Item> itemList = itemRepository.findByDescriptionContainsOrderByIdAsc("desc");
+        assertEquals(3, itemList.size());
+        assertTrue(itemList.get(0).getId() < itemList.get(1).getId());
+    }
+
+    @Test
+    public void findByDescriptionContainsOrNameContains() {
+        testEntityManager.persist(new Item(null, "dummy", 100, "desc2"));
+        testEntityManager.persist(new Item(null, "dummy", 100, "desc1"));
+        testEntityManager.persist(new Item(null, "dummy", 100, "1desc1"));
+        testEntityManager.persist(new Item(null, "desc", 100, "aaa"));
+        testEntityManager.persist(new Item(null, "adesca", 100, "bbb"));
+
+        List<Item> itemList = itemRepository.findByDescriptionContainsOrNameContainsOrderByIdAsc("desc", "desc");
+        assertEquals(5, itemList.size());
+        assertTrue(itemList.get(0).getId() < itemList.get(1).getId());
     }
 }
