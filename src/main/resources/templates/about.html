@@ -4,42 +4,15 @@
 <body>
 <div th:replace="common/navbar.html::navbar"></div>
 <div class="container">
-    <h1>Spring Boot ハンズオン</h1>
-    <p>
-        このアプリケーションはSpring Bootのための 1 day hands on アプリです。<br/>
-        基本的な機能をすべて実装すると、商品登録・商品検索を行うことができます。
-        また、発展課題まですべて実装すると、商品検索画面で名前検索のほかに、価格検索・タグ検索を行うことができます。
-    </p>
-    <h2 id="Chapter0" class="mt-10">始める前に</h2>
-    <p>
-        このハンズオンを始める前に <a href="#">こちら</a> の資料を読んで、MVC モデル及び Spring Boot の概要を知っておくと、
-        手を動かしたときの効果をより一層得ることができます。
-    </p>
-
-    <h2 id="Chapter1" class="title mt-5">1. メインページを作る</h2>
-        <span class="text-muted"><i class="fas fa-folder-open"></i>: 01_main_page</span>
-    <p>
-        text
-        <br/><br/><br/><br/><br/><br/><br/>
-    </p>
-
-    <h2 id="Chapter2" class="title mt-5">2. </h2>
-    <p>
-        text
-        <br/><br/><br/><br/><br/><br/><br/>
-    </p>
-
-    <h2 id="Chapter3" class="title mt-5">3. </h2>
-    <p>
-        text
-        <br/><br/><br/><br/><br/><br/><br/>
-    </p>
-
-    <h2 id="Chapter4" class="title mt-5">4. </h2>
-    <p>
-        text
-        <br/><br/><br/><br/><br/><br/><br/>
-    </p>
+    <div id="content"></div>
 </div>
 </body>
+<script>
+    $.ajax({
+        type: "GET",
+        url :"/markdown/about.md"
+    }).done(function (data) {
+        document.getElementById("content").innerHTML = marked(data);
+    });
+</script>
 </html>
