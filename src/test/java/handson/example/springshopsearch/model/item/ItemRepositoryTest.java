@@ -1,5 +1,6 @@
 package handson.example.springshopsearch.model.item;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +9,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -31,8 +29,8 @@ public class ItemRepositoryTest {
         testEntityManager.persist(new Item(null, "hoge15", 700, "dummyyyy"));
 
         List<Item> itemList = itemRepository.findByNameContainsOrderByIdAsc("name");
-        assertEquals(3, itemList.size());
-        assertTrue(itemList.get(0).getId() < itemList.get(1).getId());
+        Assert.assertEquals(3, itemList.size());
+        Assert.assertTrue(itemList.get(0).getId() < itemList.get(1).getId());
     }
 
     @Test
@@ -44,8 +42,8 @@ public class ItemRepositoryTest {
         testEntityManager.persist(new Item(null, "dummy", 100, "bbb"));
 
         List<Item> itemList = itemRepository.findByDescriptionContainsOrderByIdAsc("desc");
-        assertEquals(3, itemList.size());
-        assertTrue(itemList.get(0).getId() < itemList.get(1).getId());
+        Assert.assertEquals(3, itemList.size());
+        Assert.assertTrue(itemList.get(0).getId() < itemList.get(1).getId());
     }
 
     @Test
@@ -57,7 +55,7 @@ public class ItemRepositoryTest {
         testEntityManager.persist(new Item(null, "adesca", 100, "bbb"));
 
         List<Item> itemList = itemRepository.findByDescriptionContainsOrNameContainsOrderByIdAsc("desc", "desc");
-        assertEquals(5, itemList.size());
-        assertTrue(itemList.get(0).getId() < itemList.get(1).getId());
+        Assert.assertEquals(5, itemList.size());
+        Assert.assertTrue(itemList.get(0).getId() < itemList.get(1).getId());
     }
 }

@@ -14,6 +14,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ItemServiceTest {
@@ -43,14 +44,13 @@ public class ItemServiceTest {
         Assert.assertEquals(0, itemService.getItems("", "name").size());
     }
 
-    //    @Test
+    @Test
     public void getItem() {
-        // TODO
-//        Mockito.when(itemService.getItem(0L).getId()).thenReturn(-1L);
-//        Mockito.when(itemService.getItem(1L).getId()).thenReturn(1L);
-//
-//        Assert.assertEquals(new Long(-1), itemService.getItem(0L).getId());
-//        Assert.assertEquals(new Long(1), itemService.getItem(1L).getId());
+        Mockito.when(itemService.getItem(0L)).thenReturn(new Item(-1));
+        Mockito.when(itemService.getItem(1L)).thenReturn(new Item(1));
+
+        Assert.assertEquals(new Long(-1), itemService.getItem(0L).getId());
+        Assert.assertEquals(new Long(1), itemService.getItem(1L).getId());
     }
 
     @Test

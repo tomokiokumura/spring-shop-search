@@ -33,4 +33,8 @@ public class Item {
 
     @Column(name = "description", columnDefinition = "TEXT")
     public String description;
+
+    public Item(long id) {
+        this.id = id;
+    }
 }

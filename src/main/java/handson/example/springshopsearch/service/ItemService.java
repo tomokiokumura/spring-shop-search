@@ -34,13 +34,7 @@ public class ItemService {
     }
 
     public Item getItem(Long id) {
-        Optional<Item> opt = itemRepository.findById(id);
-        if(opt.isPresent()) {
-            return opt.get();
-        }
-        Item item = new Item();
-        item.setId(-1L);
-        return item;
+        return Optional.ofNullable(itemRepository.getOne(id)).orElse(new Item(-1));
     }
 
     public List<Item> contractDescription(List<Item> list, int length) {
