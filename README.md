@@ -2,6 +2,7 @@ Spring Shop Search
 ====
 
 [![CircleCI](https://circleci.com/gh/mosmos21/spring-shop-search/tree/master.svg?style=svg)](https://circleci.com/gh/mosmos21/spring-shop-search/tree/master)
+![Packagist](https://img.shields.io/packagist/l/doctrine/orm.svg)
 
 ## Usage
 
