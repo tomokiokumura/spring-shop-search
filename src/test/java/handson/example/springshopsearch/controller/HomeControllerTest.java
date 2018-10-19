@@ -1,6 +1,5 @@
 package handson.example.springshopsearch.controller;
 
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,7 +29,14 @@ public class HomeControllerTest {
     @Test
     public void index() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/"))
-                .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
+
+    @Test
+    public void init() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/init"))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().is3xxRedirection());
+    }
+
 }
