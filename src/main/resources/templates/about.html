@@ -1,18 +1,40 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="common/header.html::header"/>
+<script type="text/javascript" src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+<style>
+    .prettyprint {
+        padding: 5px;
+    }
+</style>
 <body>
 <div th:replace="common/navbar.html::navbar"></div>
 <div class="container">
-    <div id="content"></div>
+    <div id="content">
+        文章をロード中…
+    </div>
 </div>
 </body>
 <script>
     $.ajax({
         type: "GET",
-        url :"/markdown/about.md"
+        url : "/markdown/about.md"
     }).done(function (data) {
         document.getElementById("content").innerHTML = marked(data);
+        var tables = document.getElementsByTagName("table");
+        Object.keys(tables).forEach(function(i) {
+            tables[i].setAttribute("class", "table");
+        });
+        var codes = document.getElementsByTagName("pre");
+        Object.keys(codes).forEach(function(i) {
+            codes[i].setAttribute("class", "prettyprint");
+            codes[i].style.padding = "10px";
+            codes[i].style.border = "1px solid gray";
+            codes[i].style.borderRadius = "5px";
+            codes[i].style.boxShadow = "2px 2px 4px";
+        });
+    }).fail(function () {
+        document.getElementById("content").innerText = "データの取得に失敗しました";
     });
 </script>
 </html>
