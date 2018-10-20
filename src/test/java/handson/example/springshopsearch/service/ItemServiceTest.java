@@ -28,26 +28,26 @@ public class ItemServiceTest {
 
     @Test
     public void getItems_ALL() {
-        Mockito.when(itemService.getItems("", Constants.SearchType.ALL)).thenReturn(new ArrayList<>());
+        Mockito.when(itemRepository.findByDescriptionContainsOrNameContainsOrderByIdAsc("", "")).thenReturn(new ArrayList<>());
         Assert.assertEquals(0, itemService.getItems("", "all").size());
     }
 
     @Test
     public void getItems_DESCRIPTION() {
-        Mockito.when(itemService.getItems("", Constants.SearchType.DESCRIPTION)).thenReturn(new ArrayList<>());
+        Mockito.when(itemRepository.findByDescriptionContainsOrderByIdAsc("")).thenReturn(new ArrayList<>());
         Assert.assertEquals(0, itemService.getItems("", "description").size());
     }
 
     @Test
     public void getItems_NAME() {
-        Mockito.when(itemService.getItems("", Constants.SearchType.NAME)).thenReturn(new ArrayList<>());
+        Mockito.when(itemRepository.findByNameContainsOrderByIdAsc("")).thenReturn(new ArrayList<>());
         Assert.assertEquals(0, itemService.getItems("", "name").size());
     }
 
     @Test
     public void getItem() {
-        Mockito.when(itemService.getItem(0L)).thenReturn(new Item(-1));
-        Mockito.when(itemService.getItem(1L)).thenReturn(new Item(1));
+        Mockito.when(itemRepository.getOne(0L)).thenReturn(null);
+        Mockito.when(itemRepository.getOne(1L)).thenReturn(new Item(1));
 
         Assert.assertEquals(new Long(-1), itemService.getItem(0L).getId());
         Assert.assertEquals(new Long(1), itemService.getItem(1L).getId());
