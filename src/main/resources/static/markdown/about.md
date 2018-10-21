@@ -4,6 +4,8 @@ Spring Boot ハンズオン
 このアプリケーションはSpring Bootのための 1dayハンズオン アプリです。  
 このページのステップに沿って実装することでSpring Boot Frameworkの概要に触れることができます。
 
+<p id="index"></p>
+
 ----
 ## このページの読み方
 上からステップに沿って読むことを想定しています。  
@@ -16,7 +18,9 @@ Spring Boot ハンズオン
 参考にしてみてください。
 
 ## はじめに
-Spring Boot Frameworkを使うにあたって [MVCモデル]() の概要を理解することをお勧めします。
+Spring Boot Frameworkを使うにあたって 
+[MVCモデル](https://www.google.co.jp/search?q=MVC%E3%83%A2%E3%83%87%E3%83%AB) 
+の概要を理解することをお勧めします。
 また別資料で [Spring Boot Framework の概要]() を把握しておきましょう。
 
 ----
@@ -222,7 +226,8 @@ public class ItemController {
     </a>
 </td>
 ```
-
+各商品の行に確認ボタンを追加します。URLは`http://localhost:8080/items/{id}`の形にしたいので、
+`th:href`を使って動的にURLの指定をしています。
 
 #### コントローラに追加する
 ```java
@@ -235,6 +240,9 @@ public class ItemController {
     }
 }
 ```
+コントローラを追加します。ItemController自体に`@RequestMapping("items")`がついているので
+{id}の部分を指定しています。また、正規表現を指定して数字の組み合わせの時だけマッチするようにしています。
+引数では`@PathValuable`を付けることでURLに含まれている値を受け取ることができます。
 
 #### ビューを作る
 ```html
@@ -261,11 +269,17 @@ public class ItemController {
     </div>
 </div>
 ```
+ビューは好きなデータを表示することができればなんでもいいので、うえのHTMLはあくまで例として書いています。
+ビューでは一覧を作成したときと同様に`th:object`と`th:text="*{変数名}"`を指定してコントローラーで
+渡した値を表示しています。
 
 
 ----
 ## メインページでカード表示できるようにする
 <span class="text-muted"><i class="fas fa-folder-open"></i>: 05_index</span>
+
+ここまでで商品の一覧の表示、商品の追加ができるようになりました。  
+次のステップとしてトップページにアクセスしたときにカード形式で商品の一覧を見れるようにします。
 
 #### コントローラに追加する
 ```java
@@ -281,6 +295,7 @@ public class HomeController {
     }
 }
 ```
+ここまでと同じようにメソッドを追加します。データはitemRepositoryからすべてのデータを取得するようにします。
 
 #### ビューに追加する
 ```html
@@ -307,11 +322,18 @@ public class HomeController {
     </div>
 </div>
 ```
+カードの表示はbootstrapのカードを利用します。一覧を表示したときと同様に`th:each`を使ってコントローラで設定した
+データをループで表示します。また、ここでも詳細ページに飛べるように詳細ボタンを設定しています。　
+
+ここまで出来たらトップページの`http://localhost:8080`にアクセスしてみましょう。
+カード形式で商品の一覧が表示できていれば成功です。
 
 ----
 ## 商品名で検索できるようにする
 <span class="text-muted"><i class="fas fa-folder-open"></i>: 06_search</span>
 
+最後のステップとして商品の検索をできるようにします。
+商品の検索は検索ワードが商品名に含まれているかで判定します。
 
 #### ビューに追加する
 ```html
@@ -330,6 +352,8 @@ public class HomeController {
     </div>
 </div>
 ```
+検索ワードを入力するためのフォームをindex.htmlに追加します。
+name属性を指定することでコントローラで受け取りやすくなるので必ず指定しましょう。
 
 #### リポジトリに追加する
 ```java
@@ -337,6 +361,9 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     List<Item> findByNameContainsOrderByIdAsc(String keyword);
 }
 ```
+商品の一覧から名前で絞込ができるようにリポジトリクラスにメソッドを定義します。
+上の例では名前が含まれているか(findByNameContains)で検索をしていて、
+検索でヒットしたものをIDでソート(OrderByIdAsc)しています。
 
 #### コントローラを修正する
 ```java
@@ -357,10 +384,16 @@ public class HomeController {
     }
 }
 ```
+コントローラを修正します。
+`@RequestParam`を付与して引数に値を指定することでフォームで入力した値を取得することができます。
+URLに直接した場合はキーワードがないため、require属性をfalseにしています。
+requireをfalseにしているので引数の型はOptionalになります。
+コントローラの中で引数があればキーワード検索、なければ全検索と言うように書き換えました。
+
+ここまで実装して商品一覧に対して絞込検索ができるようになりました。
 
 ----
 ## 課題
-<span class="text-muted"><i class="fas fa-folder-open"></i>: 10_task</span>
 
 商品の検索で以下の3つの条件から選んで検索ができるようにしてください。
 
