@@ -74,7 +74,7 @@ DBのカラム名を明示的に指定します。省略された場合は自動
 
 ----
 ## テーブルで一覧を見れるようにする
-<span class="text-muted"><i class="fas fa-folder-open"></i>: 02_list_items</span>
+<span class="text-muted"><i class="fas fa-folder-open"></i>: 02_item_list</span>
 
 ブラウザ上で商品一覧を見れるようにします。
 URLは`http://localhost:8080/items`とします。
@@ -91,9 +91,9 @@ public class ItemController {
     @GetMapping
     public String listItem(Model model) {
         List<Item> list = Arrays.asList(
-                new Item(1, "商品1", 100, "説明1"),
-                new Item(2, "商品2", 200, "説明2"),
-                new Item(3, "商品3", 300, "説明3")
+                new Item(1L, "商品1", 100, "説明1"),
+                new Item(2L, "商品2", 200, "説明2"),
+                new Item(3L, "商品3", 300, "説明3")
         );
         model.addAttribute("items", list);
         return "list_item";
@@ -149,6 +149,15 @@ view(ここではHTMLファイルを指しています)にデータを渡すこ�
 URLにアクセスしたときは入力フォームのViewを返せばよいのでコントローラクラスにメソッドを一つ追加します
 HTMLファイルのファイル名は`item_form.html`とします。
 
+#### 追加ボタンを設置する
+`item_list.html`に追加ボタンを設置します。
+アイテムを追加するフォームのURLは`http://localhost:8080/items/add`にします。 
+```html
+<a href="/items/add">
+    <button class="btn btn-primary">商品登録</button>
+</a>
+```
+
 #### コントローラに追加する
 ```java
 public class ItemController {
@@ -159,6 +168,7 @@ public class ItemController {
     }
 }
 ```
+ビューを返すだけのメソッドを定義します。
 
 #### フォーム用のビューを作る
 次に、htmlファイルを作成します。先ほどと同じように`index.html`をコピーして`item_form.html`
