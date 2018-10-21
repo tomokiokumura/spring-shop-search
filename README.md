@@ -22,4 +22,4 @@ $ mvn spring-boot:run
  $ java -jar target/spring-shop-search-1.0.jar
  ```
  
- Please access `http://localhost:8080/about`
+ Please visit `http://localhost:8080/about` or see [about.md](./src/main/resources/static/markdown/about.md)
