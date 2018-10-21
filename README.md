@@ -21,3 +21,5 @@ $ mvn spring-boot:run
  $ mvn build
  $ java -jar target/spring-shop-search-1.0.jar
  ```
+ 
+ Please access `http://localhost:8080/about`

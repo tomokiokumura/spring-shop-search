@@ -15,8 +15,12 @@ Spring Boot ハンズオン
 このディレクトリはリポジトリの中にあるexampleディレクトリの中にまとめて入れられていますので、
 参考にしてみてください。
 
+## はじめに
+Spring Boot Frameworkを使うにあたって [MVCモデル]() の概要を理解することをお勧めします。
+また別資料で [Spring Boot Framework の概要]() を把握しておきましょう。
+
 ----
-## モデルを作る
+## 商品モデルを定義する
 <span class="text-muted"><i class="fas fa-folder-open"></i>: 01_model</span>
 
 商品を保持するためのクラスを作成します。
@@ -29,6 +33,7 @@ Spring Boot ハンズオン
 | price | int | 商品価格です。保存できる値は0以上とします。 |
 | description | String(TEXT) | 商品説明です。長文を保存できるようにDBの型がTEXT型になるように指定します。
 
+#### モデルを作る
 これらの情報をクラスに書き換えると以下のようになります。
 ```java
 @Entity
@@ -72,6 +77,7 @@ URLは`http://localhost:8080/items`とします。
 URLにアクセスしてデータを表示するためにはhtmlファイルとControllerクラスが必要になるので作ります。
 全体のテンプレートは`src/resource/templates/index.html`をコピーして使用してください。  
 
+#### コントローラーを作る
 最初にControllerを作ります。ここでは動作確認をすることが目的なので商品のデータは固定にします。
 ```java
 @Controller
@@ -98,6 +104,7 @@ view(ここではHTMLファイルを指しています)にデータを渡すこ�
 今回は商品のリストを渡したいので`List<Item>`を宣言して確認用に固定のデータを入れています。
 返り値には表示したいhtmlファイルの名前を指定します。
 
+#### ビューを作る
 次にhtmlファイルを作ります。ベースは`index.html`と同じものを使用するのでコピーして名前を`list_items.html`
 にしてください。  
 `<div class="container"></div>`の中にHTMLを書いていきます。
@@ -138,6 +145,7 @@ view(ここではHTMLファイルを指しています)にデータを渡すこ�
 URLにアクセスしたときは入力フォームのViewを返せばよいのでコントローラクラスにメソッドを一つ追加します
 HTMLファイルのファイル名は`item_form.html`とします。
 
+#### コントローラに追加する
 ```java
 public class ItemController {
     
@@ -148,6 +156,7 @@ public class ItemController {
 }
 ```
 
+#### フォーム用のビューを作る
 次に、htmlファイルを作成します。先ほどと同じように`index.html`をコピーして`item_form.html`
 を作っておいてください。
 入力フォームですが以下の3つの入力欄があればよいので用意します。
@@ -171,6 +180,7 @@ public class ItemController {
 基本的には自由に作ってよいですが、入力欄にname属性を必ずつけて受け取るモデルの変数名と同じにすることを忘れないでください。
 こうすることで、コントローラでモデルを受け取った際に対応したメンバ変数に自動的に値をセットしてくれます。
 
+#### リポジトリを作る
 続いて、DBに保存する処理をするためのリポジトリを作成します。
 ```java
 public interface ItemRepository extends JpaRepository<Item, Long> {
@@ -179,6 +189,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 Itemモデルに対してDBアクセス処理や保存処理を行うためのリポジトリインターフェースです。
 ここでは保存を行いますが、JpaRepositoryに保存するメソッドは定義されていますので、メソッドの宣言は何も必要ありません。
 
+#### コントローラに追加する
 最後に、フォームが送信されたときに受けるコントローラーを作成します。
 ```java
 public class ItemController {
@@ -201,18 +212,151 @@ public class ItemController {
 
 ----
 ## 詳細ページを作成する
-<span class="text-muted"><i class="fas fa-folder-open"></i>: 04</span>
+<span class="text-muted"><i class="fas fa-folder-open"></i>: 04_item_detail</span>
+
+#### ビューに追加する
+```html
+<td>
+    <a th:href="@{/items/{id}(id=*{id})}">
+        <button class="btn btn-outline-primary btn-small">確認</button>
+    </a>
+</td>
+```
+
+
+#### コントローラに追加する
+```java
+public class ItemController {
+
+    @GetMapping("{id:[0-9]+}")
+    public String getDetail(Model model, @PathVariable("id") Long id) {
+        model.addAttribute("item", itemRepository.getOne(id));
+        return "detail";
+    }
+}
+```
+
+#### ビューを作る
+```html
+<div th:object="${item}">
+    <div class="row">
+        <div class="col-md-4">
+            <img th:src="@{/images/default.png}" alt="IMAGE NOT SET" width="200" height="200" align="center">
+        </div>
+        <div class="col-md-8">
+            <p class="h5">
+                商品番号： [[ *{id} ]]
+            </p>
+            <p class="mt-5 h2">
+                [[ *{name} ]]
+            </p>
+            <p>
+                価格： [[ *{price} ]] Yen
+            </p>
+        </div>
+    </div>
+    <div class="row mt-5 mr-1 ml-1">
+        <p th:text="*{description}"></p>
+        <small class="text-muted">テキストは Wikipedia からの抜粋です。</small>
+    </div>
+</div>
+```
 
 
 ----
 ## メインページでカード表示できるようにする
-<span class="text-muted"><i class="fas fa-folder-open"></i>: 05</span>
+<span class="text-muted"><i class="fas fa-folder-open"></i>: 05_index</span>
 
+#### コントローラに追加する
+```java
+public class HomeController {
+    
+    @Autowired
+    ItemRepository itemRepository;
+    
+    @GetMapping
+    public String index(Model model) {
+        model.addAttribute("items", itemRepository.findAll());
+        return "index";
+    }
+}
+```
+
+#### ビューに追加する
+```html
+<div class="row">
+    <div class="col-md-4" style="padding: 5px;" th:each="item : ${items}" th:object="${item}">
+        <div class="card" style="height: 18rem;">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8" style="width: 10em;">
+                        <h5 class="card-title contract" th:text="*{name}"></h5>
+                    </div>
+                    <div class="col-md-4">
+                        <a th:href="@{/items/{id}(id=*{id})}">
+                            <button class="btn btn-sm btn-outline-primary">
+                                詳細
+                            </button>
+                        </a>
+                    </div>
+                </div>
+                <h6 class="card-subtitle">[[*{price}]] Yen</h6>
+                <p class="card-text mt-2" th:text="*{description}" style="height: 12rem;"></p>
+            </div>
+        </div>
+    </div>
+</div>
+```
 
 ----
 ## 商品名で検索できるようにする
-<span class="text-muted"><i class="fas fa-folder-open"></i>: 06</span>
+<span class="text-muted"><i class="fas fa-folder-open"></i>: 06_search</span>
 
+
+#### ビューに追加する
+```html
+<div class="row">
+    <div class="col-md-12">
+        <form>
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="検索ワードを入力…" name="keyword">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">検索</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+```
+
+#### リポジトリに追加する
+```java
+public interface ItemRepository extends JpaRepository<Item, Long> {
+    List<Item> findByNameContainsOrderByIdAsc(String keyword);
+}
+```
+
+#### コントローラを修正する
+```java
+public class HomeController {
+
+    @Autowired
+    ItemRepository itemRepository;
+    
+    @GetMapping
+    public String index(
+            Model model,
+            @RequestParam(name = "keyword", required = false) Optional<String> keyword) {
+        List<Item> list = keyword.isPresent()
+                ? itemRepository.findByNameContainsOrderByIdAsc(keyword.get())
+                : itemRepository.findAll();
+        model.addAttribute("items", list);
+        return "index";
+    }
+}
+```
 
 ----
 ## 課題
@@ -233,3 +377,7 @@ public class ItemController {
 - 登録済みの商品を編集できるようにする
 - 商品をカートに入れて合計額を計算できるようにする
 - ログイン機能を実装してみる
+
+また、サンプルコードでは簡略化のため、コントローラーで直接リポジトリの操作を行っています。
+この状態では大規模になってくるとコントーラーが肥大化してきてしまうため、扱いにくくなってしまいますので、
+サービスクラスを定義して全体の構造を整理してみてください。
