@@ -8,6 +8,12 @@
         <div class="col-md-12">
             <form>
                 <div class="form-group">
+                    <div class="col-md-2">検索条件</div>
+                    <div class="col-md-6">
+                        <input type="radio" value="both" name="searchtype" checked>商品名or商品説明
+                        <input type="radio" value="name" name="searchtype">商品名
+                        <input type="radio" value="description" name="searchtype">商品説明
+                    </div>
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="検索ワードを入力…" name="keyword">
                         <div class="input-group-append">
@@ -40,7 +46,6 @@
             </div>
         </div>
     </div>
-</div>
 </div>
 </body>
 </html>

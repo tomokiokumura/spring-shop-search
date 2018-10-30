@@ -1,5 +1,6 @@
 package handson.example.springshopsearch.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,10 +24,25 @@ public class HomeController {
     @GetMapping
     public String index(
             Model model,
-            @RequestParam(name = "keyword", required = false) Optional<String> keyword) {
-        List<Item> list = keyword.isPresent()
-                ? itemRepository.findByNameContainsOrderByIdAsc(keyword.get())
-                : itemRepository.findAll();
+            @RequestParam(name = "keyword", required = false) Optional<String> keyword,
+            @RequestParam(name = "searchtype", required = true) Optional<String> searchtype) {
+        List<Item> list = new ArrayList<>();
+        if (keyword.isPresent()) {
+            switch (searchtype.get()) {
+                case "name":
+                    list = itemRepository.findByNameContainsOrderByIdAsc(keyword.get());
+                    break;
+                case "description":
+                    list = itemRepository.findByDescriptionContainsOrderByIdAsc(keyword.get());
+                    break;
+                default:
+                    list = itemRepository.findByNameContainingOrDescriptionContaining(keyword.get(), keyword.get());
+                    break;
+            }
+        }
+        else {
+            list = itemRepository.findAll();
+        }
         model.addAttribute("items", list);
         return "index";
     }
