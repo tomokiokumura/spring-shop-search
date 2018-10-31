@@ -25,6 +25,9 @@
         <p th:text="*{description}"></p>
         <small class="text-muted">テキストは Wikipedia からの抜粋です。</small>
     </div>
+        <a th:href="@{/items/update/{id}(id=*{id})}">
+            <button class="btn btn-primary" type="submit">編集</button>
+        </a>
 </div>
 </div>
 </body>

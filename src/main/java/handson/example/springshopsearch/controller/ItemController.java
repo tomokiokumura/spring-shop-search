@@ -43,4 +43,16 @@ public class ItemController {
         model.addAttribute("item", itemRepository.getOne(id));
         return "detail";
     }
+
+    @GetMapping("/update/{id:[0-9]+}")
+    public String getUpdate(Model model, @PathVariable("id") Long id) {
+        model.addAttribute("item", itemRepository.getOne(id));
+        return "update";
+    }
+
+    @PostMapping("/update/{id:[0-9]+}")
+    public String updateItem(Item item) {
+        itemRepository.save(item);
+        return "redirect:/items";
+    }
 }
